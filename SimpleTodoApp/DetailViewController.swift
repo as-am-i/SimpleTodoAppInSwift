@@ -10,17 +10,28 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    @IBOutlet weak var todoTitleLabel: UILabel!
+    @IBOutlet weak var todoDescriptionLabel: UILabel!
+    @IBOutlet weak var todoPriorityLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    var todo: Todo? {
+        didSet {
+            refreshUI()
+        }
     }
     
+    func refreshUI() {
+        loadViewIfNeeded()
+        todoTitleLabel.text = todo?.title
+        todoDescriptionLabel.text = todo?.todoDescription
+        todoPriorityLabel.text = "\(todo?.priority ?? 0)"
+    }
 
     /*
     // MARK: - Navigation

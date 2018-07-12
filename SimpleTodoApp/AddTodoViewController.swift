@@ -46,9 +46,9 @@ class AddTodoViewController: UIViewController {
     // MARK: private methods
     private func setupFields() {
         if todo != nil {
-//            todoTitleTextField.text =
-//            todoDescriptionTextView.text = todo?.todoDescription
-//            todoPriorityTextField.text = todo?.priority
+            todoTitleTextField.text = todo?.title
+            todoDescriptionTextView.text = todo?.todoDescription
+            todoPriorityTextField.text = "\(todo?.priority ?? 0)"
         }
     }
     
