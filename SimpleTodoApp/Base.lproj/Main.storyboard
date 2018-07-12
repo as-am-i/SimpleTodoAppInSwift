@@ -123,7 +123,11 @@
                                 </constraints>
                                 <items>
                                     <navigationItem title="What to do?" id="lAD-WS-5m1">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="8CV-1O-N14"/>
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="8CV-1O-N14">
+                                            <connections>
+                                                <action selector="cancel:" destination="Edw-qP-HUU" id="GL1-d9-k7f"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="Y7r-Rs-6vj">
                                             <connections>
                                                 <action selector="createTodo:" destination="Edw-qP-HUU" id="C50-Re-2HJ"/>

@@ -60,7 +60,12 @@ class AddTodoViewController: UIViewController {
         if !(title?.isEmpty)! && !(todoDescription?.isEmpty)! && !(priority?.isEmpty)! {
             // ! at the end of each condition is for unwrap
             let todo = Todo(context: managedObjectContext)
-            todo.setupProperties(title: title!, todoDescription: todoDescription!, priority: Int(priority!)!, isCompleted: false)
+            
+            var priorityInt = 0;
+            if Int(priority!) != nil {
+                priorityInt = Int(priority!)!
+            }
+            todo.setupProperties(title: title!, todoDescription: todoDescription!, priority: priorityInt, isCompleted: false)
             
             self.delegate?.addTodo(todo)
         }
@@ -68,6 +73,9 @@ class AddTodoViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
+    }
     private func updateSaveButtonState() {
         let title = todoTitleTextField.text ?? "" // ?? is nil coalescing operator
         let todoDescription = todoDescriptionTextView.text ?? ""

@@ -61,6 +61,17 @@ class ViewController: UIViewController, UITableViewDelegate {
         }
     }
     
+    fileprivate func delete(todo: Todo) {
+        managedObjectContext.delete(todo)
+        saveContext()
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        tableView.setEditing(editing, animated: animated)
+    }
+    
     // segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addTodo" {
@@ -88,6 +99,16 @@ extension ViewController: UITableViewDataSource {
         
         cell.update(with: todo)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            delete(todo: todos[indexPath.row]) // delete for core data
+            todos.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
 
