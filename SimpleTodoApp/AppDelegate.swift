@@ -17,6 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let splitController = window!.rootViewController as? UISplitViewController
+     
+        
+        if let viewControllers = splitController?.viewControllers {
+            let navController = viewControllers.first as! UINavigationController
+            let controller = navController.viewControllers.first as! ViewController
+            controller.managedObjectContext = persistentContainer.viewContext
+        }
+
         return true
     }
 
