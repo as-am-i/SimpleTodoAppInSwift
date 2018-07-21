@@ -21,8 +21,9 @@ class AddTodoViewController: UIViewController {
     @IBOutlet weak var todoDescriptionTextView: UITextView!
     @IBOutlet weak var todoPriorityTextField: UITextField!
     @IBOutlet weak var saveTodoButton: UIBarButtonItem!
+    @IBOutlet weak var todoIsFinishedSwitch: UISwitch!
     
-     var managedObjectContext: NSManagedObjectContext!
+    var managedObjectContext: NSManagedObjectContext!
     
     weak var delegate: AddTodoViewControllerDelegate?
     weak var todo: Todo?
@@ -49,6 +50,7 @@ class AddTodoViewController: UIViewController {
             todoTitleTextField.text = todo?.title
             todoDescriptionTextView.text = todo?.todoDescription
             todoPriorityTextField.text = "\(todo?.priority ?? 0)"
+            todoIsFinishedSwitch.isOn = (todo?.isCompleted)!
         }
     }
     
@@ -56,21 +58,25 @@ class AddTodoViewController: UIViewController {
         let title = todoTitleTextField.text
         let todoDescription = todoDescriptionTextView.text
         let priority = todoPriorityTextField.text
+        let isCompleted = todoIsFinishedSwitch.isOn
         
         if !(title?.isEmpty)! && !(todoDescription?.isEmpty)! && !(priority?.isEmpty)! {
             // ! at the end of each condition is for unwrap
-            let todo = Todo(context: managedObjectContext)
+            if todo == nil {
+                todo = Todo(context: managedObjectContext)
+            }
             
             var priorityInt = 0;
             if Int(priority!) != nil {
                 priorityInt = Int(priority!)!
             }
-            todo.setupProperties(title: title!, todoDescription: todoDescription!, priority: priorityInt, isCompleted: false)
             
-            self.delegate?.addTodo(todo)
+            todo?.setupProperties(title: title!, todoDescription: todoDescription!, priority: priorityInt, isCompleted: isCompleted)
+            
+            self.delegate?.addTodo(todo!)
         }
         
-        self.dismiss(animated: true, completion: nil)
+       self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {

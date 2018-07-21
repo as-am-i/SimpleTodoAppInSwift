@@ -25,12 +25,22 @@ class TodoTableViewCell: UITableViewCell {
             addStrikethrough(with: todo.title!, on: titleLabel)
             addStrikethrough(with: todo.todoDescription!, on: descriptionLabel)
             addStrikethrough(with: "Priority: \(todo.priority)", on: priorityLabel)
+        } else {
+            makeNormal(with: todo.title!, on: titleLabel)
+            makeNormal(with: todo.todoDescription!, on: descriptionLabel)
+            makeNormal(with: "Priority: \(todo.priority)", on: priorityLabel)
         }
     }
     
     func addStrikethrough(with string: String, on uiLabel: UILabel) {
         let attributeString = NSMutableAttributedString(string: string)
         attributeString.addAttributes([NSAttributedStringKey.strikethroughStyle : 2], range: NSMakeRange(0, attributeString.length))
+        uiLabel.attributedText = attributeString
+    }
+    
+    func makeNormal(with string: String, on uiLabel: UILabel) {
+        let attributeString = NSMutableAttributedString(string: string)
+        attributeString.removeAttribute(NSAttributedStringKey.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
         uiLabel.attributedText = attributeString
     }
 }

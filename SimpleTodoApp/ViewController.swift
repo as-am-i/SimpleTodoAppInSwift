@@ -18,14 +18,14 @@ class ViewController: UIViewController, UITableViewDelegate {
     var todos = [Todo]()
     
     func setupTodos() {
-        let todo = Todo(context: managedObjectContext)
-        todo.setupProperties(title: "sleep well", todoDescription: "go to bed, relax the body, and close the eyes", priority: 1, isCompleted: false)
-
-        let todo1 = Todo(context: managedObjectContext)   
-        todo1.setupProperties(title: "Eat well", todoDescription: "go to kitchen, get some meals, and feed yourself", priority: 2, isCompleted: false)
-        
-        let todo2 = Todo(context: managedObjectContext)
-        todo2.setupProperties(title: "Walk, walk, walk", todoDescription: "take a step forward, and one more step, and another one...", priority: 3, isCompleted: true)
+//        let todo = Todo(context: managedObjectContext)
+//        todo.setupProperties(title: "sleep well", todoDescription: "go to bed, relax the body, and close the eyes", priority: 1, isCompleted: false)
+//
+//        let todo1 = Todo(context: managedObjectContext)
+//        todo1.setupProperties(title: "Eat well", todoDescription: "go to kitchen, get some meals, and feed yourself", priority: 2, isCompleted: false)
+//
+//        let todo2 = Todo(context: managedObjectContext)
+//        todo2.setupProperties(title: "Walk, walk, walk", todoDescription: "take a step forward, and one more step, and another one...", priority: 3, isCompleted: true)
         
         saveContext()
     }
@@ -33,6 +33,8 @@ class ViewController: UIViewController, UITableViewDelegate {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        splitViewController?.delegate = self
         setupTodos()
     }
     
@@ -40,6 +42,8 @@ class ViewController: UIViewController, UITableViewDelegate {
         super.viewWillAppear(animated)
         loadAllTodos()
     }
+    
+    
     
     // MARK: Core Data
     fileprivate func loadAllTodos() {
@@ -78,14 +82,14 @@ class ViewController: UIViewController, UITableViewDelegate {
             if let destination = segue.destination as? AddTodoViewController {
                 destination.delegate = self
                 destination.managedObjectContext = self.managedObjectContext
-            } else if segue.identifier == "editTodo" {
-                if let destination = segue.destination as? AddTodoViewController {
-                    destination.delegate = self
-                    destination.managedObjectContext = self.managedObjectContext
-                    
-                    if let indexPath = tableView.indexPathForSelectedRow {
-                        destination.todo = todos[indexPath.row]
-                    }
+            }
+        } else if segue.identifier == "editTodo" {
+            if let destination = segue.destination as? AddTodoViewController {
+                destination.delegate = self
+                destination.managedObjectContext = self.managedObjectContext
+                
+                if let indexPath = tableView.indexPathForSelectedRow {
+                    destination.todo = todos[indexPath.row]
                 }
             }
         }
@@ -136,6 +140,13 @@ extension ViewController: AddTodoViewControllerDelegate {
     
     func addTodo(_ todo: Todo) {
         saveContext()
+        loadAllTodos()
+    }
+}
+
+extension ViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
     }
 }
 

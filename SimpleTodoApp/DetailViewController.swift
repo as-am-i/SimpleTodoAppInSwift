@@ -20,19 +20,6 @@ class DetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    var todo: Todo? {
-        didSet {
-            refreshUI()
-        }
-    }
-    
-    func refreshUI() {
-        loadViewIfNeeded()
-        todoTitleLabel.text = todo?.title
-        todoDescriptionLabel.text = todo?.todoDescription
-        todoPriorityLabel.text = "\(todo?.priority ?? 0)"
-    }
-
     /*
     // MARK: - Navigation
 
